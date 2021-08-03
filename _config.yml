@@ -1,0 +1,10 @@
+title: Scientific Computing class
+description: Computational PDEs Fall 2021 at NYU by Aleks Donev
+author: Aleks Donev, Courant Institute
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+encoding: UTF-8
