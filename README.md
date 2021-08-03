@@ -1,2 +1,2 @@
-# CompPDEs
-Class "Computational methods for classical PDEs in the physical sciences"
+# SciComp2020.github.io
+Class page and collaboration repositories for Scientific Computing class at NYU taught by Aleks Donev
