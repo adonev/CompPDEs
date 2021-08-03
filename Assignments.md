@@ -1,5 +1,5 @@
 ---
-title: Assignments for Scientific Computing at NYU
+title: Assignments for Comp PDEs by Aleks Donev (Fall 2021)
 layout: default
 ---
 

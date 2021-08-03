@@ -1,2 +1,2 @@
-# SciComp2020.github.io
-Class page and collaboration repositories for Scientific Computing class at NYU taught by Aleks Donev
+# CompPDEs.github.io
+Computational methods for classical PDEs class at NYU taught by Aleks Donev
