@@ -2,7 +2,7 @@
 title: Computational PDEs at NYU
 layout: default
 ---
-## Computational methods for classical PDEs in the physical sciences (MATH-GA.2011-003)
+## Computational methods for classical PDEs in the physical sciences (MATH-GA.2011-003, CSCI-GA 2945.003)
 
 This special topics class in Numerical Analysis will be taught **in-person** Wednesdays 11:00-12:50PM in Warren Weaver Hall 512. It can be thought of as Numerical Methods III.
 
