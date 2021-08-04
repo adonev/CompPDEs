@@ -3,7 +3,7 @@ title: Assignments for Comp PDEs by Aleks Donev (Fall 2021)
 layout: default
 ---
 
-Please submit solutions as a self-contained PDF report that is organized with a discussion, figures, and results/answers, along with source codes (plain text please).
+Please submit solutions [via email](mailto:donev@courant.nyu.edu) as a self-contained PDF report that is organized with a discussion, figures, and results/answers, along with source codes (plain text please) as attachments.
 
 ### 1. (Due Sept 19th) [Basic methods for advection-diffusion equations](Assignments/BasicAdvDiff.pdf)
 
