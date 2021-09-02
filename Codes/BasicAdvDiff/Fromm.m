@@ -5,7 +5,8 @@
 % We assume all velocities on all faces are non-negative so upwinding is a simple circshift
 function w_t = Fromm(w, a_xt, dt, h, source, n, t, x, x_mid)
   
-   global limited;
+   global limited; % Use minmod limiter
+   global LW; % Use Lax-Wendroff instead of Fromm
       
    a = a_xt(x_mid, t+dt/2); % Advection velocities on faces
    cfl = a*dt/h; % Advective CFLs -- different for each face
@@ -29,7 +30,13 @@ function w_t = Fromm(w, a_xt, dt, h, source, n, t, x, x_mid)
       
       fluxes = a.*(w + 0.5*(1-cfl).*phi(theta).*slopes + 0.5*dt*s);
           
-   else 
+   elseif(LW)
+      
+      slopes = circshift(w, -1)-w; % Downwinded slopes (Lax-Wendroff)
+      % We also center the source terms in the spirit of LW:
+      fluxes = a.*(w + 0.5*(1-cfl).*slopes + 0.25*dt*(source+circshift(source,-1)));            
+   
+   else
       
       slopes = (circshift(w, -1)-circshift(w, 1))/2; % Centered slopes (Fromm)
       fluxes = a.*(w + 0.5*(1-cfl).*slopes + 0.5*dt*s);

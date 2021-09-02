@@ -6,24 +6,36 @@
 clear
 format long; format compact
 
-global limited; % Use limiters?
-limited=0;
+global limited;
+limited =0; % Use limiters?
 manufactured=0; % Use method of manufactured solutions
+global LW;
+LW=0; % Use Lax-Wendroff instead of Fromm to compare
+stability=0; % If 1, test stability limit
+
+% --------------------------------
 
 L=1; % Domain length
+T=1.0; % % Time to compare at:
+nu=0.25; % Desired advective CFL number
 
-% Choose advection and diffusion coefficients
-
+% Choose advection and diffusion coefficients and rhs of PDE
+%----------------
 a_max=1.0; % Set to zero to disable advection
 a=a_max;
 a_xt = @(x,t) a*(3/4-1/4*sin(4*pi*x)); % Variable velocity
 %a_xt = @(x,t) a_max*ones(size(x)); % Constant velocity -- trivial translation
 
-%d=0 % Advection only
-%d=0.0001
-d=0.001
-%d=0.01
-%d=0.1
+if(stability) % Test stability limit is only advection and not diffusion
+   d=0.01
+   nu=0.95
+else
+   %d=0 % Advection only
+   %d=0.0001
+   d=0.001
+   %d=0.01
+   %d=0.1      
+end
 
 d_x = @(x) d*(2+cos(2*pi*x));
 
@@ -51,14 +63,16 @@ end
 
 % Initial condition:
 IC = @(x) SOL(x,0);
+%----------------
 
-% Time to compare at:
-T=1.0; %1.0;
-nu=0.25; % Desired advective CFL number
-
-base=3;
-n_refinements = 5;
-colors=['k','r','g','b','m','c'];
+if(stability)
+   base=8;
+   n_refinements = 1;
+else
+   base=3;
+   n_refinements = 5;   
+end
+colors=['k','r','g','b','m','c'];   
 
 % --------------------------------
 
@@ -86,7 +100,8 @@ for i=n_refinements:-1:1
    [u,x,h(i)] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC);
    
    if(manufactured) % We know the exact solution here
-      u_exact = SOL(x,T); % Because only up to second order we can just pretend this is finite difference
+      u_exact = SOL(x,T); % Because only up to second order 
+         % we can just pretend this is finite difference and evaluate at center
    else % Compare to finer grid as no exact solution known
       u_exact = Coarsen(u_finer, 2);
    end
