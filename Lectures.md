@@ -5,7 +5,7 @@ layout: default
 
 ### 1. (Sept 8th) [Introduction and background](Lectures/IntroNumPDEs.pdf)
 
-We will begin class with the foundation for computational fluid dynamics (CFD) by reviewing the basic formulation of [advection-diffusion equations](Lectures/AdvDiffEqs.pdf).
+We will begin class with the foundation for computational fluid dynamics (CFD) by reviewing the basic formulation of [advection-diffusion equations](Lectures/AdvDiffEqs.pdf)([annotated](Lectures/AdvDiffEqs_class.pdf)).
 
 ### 2. (Sept 8th, 15th, 22nd) [Basic Finite Volume Methods](Lectures/BasicFVM.pdf)
 
