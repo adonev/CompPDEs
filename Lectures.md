@@ -19,4 +19,4 @@ Much of this material is in the books of LeVeque, but for a more self-contained 
 
 The stability analysis of second-order space-time schemes for advection-diffusion equations, as we discuss in one dimension, is in the very readable and instructive paper ["On the Stability of Godunov-Projection Methods for Incompressible Flow"](http://www.sciencedirect.com/science/article/pii/S0021999196900352) by Michael Minion. This paper is for two dimensions and Navier-Stokes and is therefore more advanced, but do come back to it if too advanced at this point (can be a topic of a final project!).
 
-With all these pieces together, you should go back to the homework on [Basic methods for advection-diffusion equations](Assignments/BasicAdvDiff.pdf) and redo parts of it. Some sample codes will be posted here later on.
+With all these pieces together, you should go back to the homework on [Basic methods for advection-diffusion equations](Assignments/BasicAdvDiff.pdf) and redo parts of it. If you wish to use a MOL method, you may find the following [IMEX temporal integrators of use](Lectures/IMEX.pdf). Some sample codes will be posted here later on.
