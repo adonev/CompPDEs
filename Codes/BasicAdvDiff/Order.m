@@ -21,7 +21,7 @@ no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
 adv_form=2; % If 0, set a=const. 
             % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
             % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
-manufactured=0; % Use method of manufactured solutions for adv_form=1 or 2
+manufactured=1; % Use method of manufactured solutions for adv_form=1 or 2
 
 % If not periodic, various options for implementing the BCs:
 global second_face_BC; second_face_BC = 2; 
@@ -30,6 +30,9 @@ global second_face_BC; second_face_BC = 2;
 global last_face_BC; last_face_BC = 2; % 0=simple upwind,...
    % 1=upwinded slopes ala Beam-Warming for last face,...
    % 2=Beam-Warming update for last cell
+global diffusion_ghost_cell; diffusion_ghost_cell=1; % Dirichlet BC for diffusion
+   % 0=linear extrapolation to ghost cell,... 
+   % 1=quadratic extrapolation (clear 2nd order)
 
 % --------------------------------
 
