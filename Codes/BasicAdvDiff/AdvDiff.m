@@ -2,11 +2,17 @@
 % starting from initial condition IC (function handle)
 % Here we allow advection speed to vary in time, a_xt==a(x,t)
 % But for diffusion we only allow variation in space, d_xt==d(x)
-function [w,x,h] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC)
+function [w,x,h] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC, DBC)
+   global periodic
+
    h=L/n;
-    
-   x = h*[1/2:(n-1/2)]';
-   x_mid = x+h/2;
+   
+   x = h*([0:n-1]+0.5)';
+   if(periodic) % First face is at x=h, no last face
+      x_mid = x+h/2;
+   else % First face is at x=h/2 and there is a last face
+      x_mid = h*([0:n])';
+   end   
    
    a_mid = a_xt(x_mid,0);
    nu = max(a_mid)*dt/h % Initial advective CFL
@@ -17,17 +23,27 @@ function [w,x,h] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC)
    % Form the diffusive operator as a *sparse* matrix
    %-----------------------
    d_mid_m = circshift(d_mid, 1);
-   A = spdiags([d_mid /h^2 , -(d_mid + d_mid_m)/h^2, circshift(d_mid,1)/h^2],[-1 0 1],n,n);
-   % Correct corners for periodic boundary conditions:
-   A(1, n) = d_mid_m(1)/h^2;
-   A(n,1) = d_mid(n)/h^2;
+   if(periodic) 
+      d_mid_m = circshift(d_mid, 1);
+      A = spdiags([d_mid /h^2 , -(d_mid + d_mid_m)/h^2, ...
+          circshift(d_mid,1)/h^2],[-1 0 1],n,n);
+      % Correct corners for periodic boundary conditions:
+      A(1, n) = d_mid_m(1)/h^2;
+      A(n,1) = d_mid(n)/h^2;
+   else % Neumann BCs on right, Dirichlet on left
+      A = spdiags([d_mid(2:n+1) /h^2 , -(d_mid(1:n) + d_mid(2:n+1))/h^2, ...
+          d_mid(1:n)/h^2],[-1 0 1],n,n);
+      % Correct first and last row for Dirichlet/Neumann BC
+      A(1,1) = -(2*d_mid(1)+d_mid(2))/h^2; A(1,2) = d_mid(2)/h^2;
+      A(n,n-1) = d_mid(n)/h^2; A(n,n) = -d_mid(n)/h^2; 
+   end
 
    % Time stepping:
    %-----------------------
    w0=IC(x); % Initial condition
    w=w0;
    for step=1:round(T/dt)
-      w = TimeStep(w, A, a_xt, s_xt, dt, h, n, (step-1)*dt, x, x_mid); 
+      w = TimeStep(w, A, a_xt, d_x, s_xt, DBC, dt, h, n, (step-1)*dt, x, x_mid); 
          % Matlab allows you to have w be both input and output
          % But in other programming languages it may be different
    end

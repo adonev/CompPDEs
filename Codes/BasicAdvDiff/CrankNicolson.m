@@ -10,7 +10,7 @@ function w_f = CrankNicolson(w_i, diff_op, source, dt)
     
     LHS = (spi - theta*dt*diff_op);
     RHS = (spi + (1-theta)*dt*diff_op);
-
+    
     w_f = LHS\(RHS*w_i +dt*source);
 
 end

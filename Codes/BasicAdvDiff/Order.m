@@ -1,24 +1,45 @@
 % Finite volume spatial discretization to solve:
 % u_t+(a(x,t)*u)_x=(d(x)*u_x)x+s(x,t)
-% with periodic BCs and initial condition
+% with either periodic BCs or
+% with Dirichlet BCs on left and Neumann on right:
+% u(0,t)=sin(-pi*t)^exponent;
+% u_x(1,t)=0 if d>0
+% and initial condition
 % u(x,0)=sin(pi*x)^exponent
+% If there were only advection the solution would be u(x,t)=sin(pi*(x-t))^exponent
 
 clear
 format long; format compact
 
 % Options:
-global limited; limited =0; % Use limiters?
-manufactured=0; % Use method of manufactured solutions
-global LW; LW=0; % Use Lax-Wendroff instead of Fromm to compare
+global periodic; periodic=0;
+global limited; limited =0; % Use limiters? (periodic only)
+global LW; LW=0; % Use Lax-Wendroff instead of Fromm to compare (periodic only)
 stability=0; % If 1, test stability limit
 discontinuous=0; % If 1, use a square wave IC
-const_adv=0; % If 1
-no_advection=0; % If 1, diffusion only test
+no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
+adv_form=2; % If 0, set a=const. 
+            % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
+            % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
+manufactured=0; % Use method of manufactured solutions for adv_form=1 or 2
+
+% If not periodic, various options for implementing the BCs:
+global second_face_BC; second_face_BC = 2; 
+   % 0=simple upwind, 1=downwind slope ala LW, ...
+   % 2=slope using first cell and BC, 3=slope using first two cells and BC
+global last_face_BC; last_face_BC = 2; % 0=simple upwind,...
+   % 1=upwinded slopes ala Beam-Warming for last face,...
+   % 2=Beam-Warming update for last cell
 
 % --------------------------------
 
 L=1; % Domain length
-T=1.0; % % Time to compare at:
+% Time to compare at:
+if(periodic)
+   T=1.0
+else
+   T=1.0
+end
 nu=0.25; % Desired advective CFL number (if ~no_advection)
 
 % Choose advection and diffusion coefficients and rhs of PDE
@@ -29,28 +50,35 @@ else
    a_max=1.0; % Max advection speed
 end   
 a=a_max;
-if(~const_adv)
-   a_xt = @(x,t) a*(3/4-1/4*sin(4*pi*x)); % Variable velocity
-else   
+
+switch adv_form
+case 0
    a_xt = @(x,t) a_max*ones(size(x)); % Constant velocity -- trivial translation
+case 1
+   a_xt = @(x,t) a*(3/4-1/4*sin(4*pi*x)); % Variable velocity in space only
+otherwise
+   a_xt = @(x,t) a*cos(t)*(3/4-1/4*sin(2*pi*x)); % Variable velocity in space and time
 end
 
 if(stability) % Test stability limit is only advection and not diffusion
    d=0.01
    nu=0.95
 elseif(no_advection)
-   d=0.001;
+   d=0.01;
 else % Choose value of diffusion
-   d=0 % Advection only
+   %d=0 % Advection only
    %d=0.0001
-   %d=0.001
+   d=0.001
    %d=0.01
    %d=0.1      
 end
 
-d_x = @(x) d*(2+cos(2*pi*x));
-if(no_advection) % Desired diffusive CFL number mu=dt*d/L^2
+d_x = @(x) d*(2+cos(2*pi*x)); % Constant: d*ones(size(x))
+% Desired diffusive CFL number mu=dt*d/L^2
+if(no_advection==2) % Large time step test for Crank-Nicolson
    mu=0.5*(d*T)/L^2; % Take only 1 step at coarser grid
+elseif(no_advection==1) % Moderate time step size
+   mu=0.5*(d*T)/L^2/128; % Take 8 steps at finest grid
 end
 
 % Source term:
@@ -58,15 +86,20 @@ if(manufactured) % For method of manufactured solution for exponent=2, from Mapl
 
    exponent=2;
    % Manufactured solution:
-   SOL = @(x,t) sin(pi*(x-a*t)).^exponent;
    % Required source term:
-   s_xt = @(x,t) pi .* a .* (-0.4e1 .* cos(0.4e1 .* pi .* x) + cos(0.2e1 .* pi .* (a .* t + x)) + 0.3e1 .* cos(0.2e1 .* pi .* (a .* t - 0.3e1 .* x)) + 0.2e1 .* sin(0.2e1 .* pi .* (a .* t - x))) / 0.8e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* (-a .* t + x)) .* cos(pi .* (-a .* t + x)) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* (-a .* t + x)) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* (-a .* t + x)) .^ 2 .* pi .^ 2;
-;
+   if(adv_form==1) % HW1: For a*(3/4-1/4*sin(4*pi*x)) and does not satisfy Neumann BC
+      SOL = @(x,t) sin(pi*(x-a*t)).^exponent;   
+      s_xt = @(x,t) pi .* a .* (-0.4e1 .* cos(0.4e1 .* pi .* x) + cos(0.2e1 .* pi .* (a .* t + x)) + 0.3e1 .* cos(0.2e1 .* pi .* (a .* t - 0.3e1 .* x)) + 0.2e1 .* sin(0.2e1 .* pi .* (a .* t - x))) / 0.8e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* (-a .* t + x)) .* cos(pi .* (-a .* t + x)) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* (-a .* t + x)) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* (-a .* t + x)) .^ 2 .* pi .^ 2;
+   else % HW2: For a*cos(t)*(3/4-1/4*sin(2*pi*x)) and satisfies Neumann BCs
+      SOL = @(x,t) sin(pi*x).^exponent;   
+      s_xt = @(x,t) -cos(t) .* sin(pi .* x) .* (0.4e1 .* sin(pi .* x) .* cos(pi .* x) .^ 2 - sin(pi .* x) - 0.3e1 .* cos(pi .* x)) .* a .* pi / 0.2e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* x) .* cos(pi .* x) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* x) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* x) .^ 2 .* pi .^ 2;      
+   end
    
 else % Solve original PDE
 
    exponent = 2; % Smooth solution
    %exponent = 100; % Not so smooth solution
+   %exponent = 20; % A bit smoother but not very smooth
 
    % Solution for constant advection speed and no diffusion:
    if(~discontinuous)
@@ -77,6 +110,7 @@ else % Solve original PDE
    
    s_xt = @(x,t) 0; % No source term
 end
+DBC = @(t) SOL(0,t); % Dirichlet BC on the inflow (left) boundary
 
 % Initial condition:
 IC = @(x) SOL(x,0);
@@ -85,12 +119,15 @@ IC = @(x) SOL(x,0);
 if(stability)
    base=8;
    n_refinements = 1;
-elseif(no_advection);
+elseif(no_advection==2);
    base=6;
-   n_refinements=1;   
+   n_refinements=1;
+elseif(~periodic) % Focus on more refined grids
+   base=4;
+   n_refinements = 4; 
 else
    base=3;
-   n_refinements = 5;   
+   n_refinements = 5;
 end
 colors=['k','r','g','b','m','c'];   
 
@@ -111,7 +148,7 @@ end
 n_steps=round(T/dt)
 dt=T/n_steps
 
-[u_finer, x_finer, h_finer] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC);
+[u_finer, x_finer, h_finer] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC, DBC);
 
 figure(2); clf; 
 figure(3); clf;
@@ -121,7 +158,7 @@ for i=n_refinements:-1:1
    dt = 2*dt; % We have doubled the grid size so double time step
    n_steps=round(T/dt)
    dt = T/n_steps
-   [u,x,h(i)] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC);
+   [u,x,h(i)] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC, DBC);
    
    if(manufactured) % We know the exact solution here
       u_exact = SOL(x,T); % Because only up to second order 
@@ -134,7 +171,8 @@ for i=n_refinements:-1:1
    plot(x, u, [colors(i),'o--']); hold on; 
    
    figure(2);
-   plot(x, (u-u_exact)/norm(u-u_exact,'inf'), [colors(i),'o-']);
+   plot(x, (u-u_exact)*4^i, [colors(i),'o-']);
+   %plot(x, (u-u_exact)/norm(u-u_exact,'inf'), [colors(i),'o-']);
    hold on;
 
    error_L1(i)=h(i)*norm(u-u_exact,1);
