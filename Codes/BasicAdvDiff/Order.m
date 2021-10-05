@@ -21,18 +21,19 @@ no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
 adv_form=2; % If 0, set a=const. 
             % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
             % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
-manufactured=1; % Use method of manufactured solutions for adv_form=1 or 2
+manufactured=1; % Use method of manufactured solutions
 
-% If not periodic, various options for implementing the BCs:
+% If not periodic, various options for implementing the Dirichlet BC on inflow boundary:
 global second_face_BC; second_face_BC = 2; 
    % 0=simple upwind, 1=downwind slope ala LW, ...
    % 2=slope using first cell and BC, 3=slope using first two cells and BC
 global last_face_BC; last_face_BC = 2; % 0=simple upwind,...
    % 1=upwinded slopes ala Beam-Warming for last face,...
    % 2=Beam-Warming update for last cell
-global diffusion_ghost_cell; diffusion_ghost_cell=1; % Dirichlet BC for diffusion
-   % 0=linear extrapolation to ghost cell,... 
-   % 1=quadratic extrapolation (clear 2nd order)
+global diffusion_ghost_cell; diffusion_ghost_cell=2; % Dirichlet BC for diffusion operator
+   % 0=linear extrapolation to ghost cell (inconsistent at boundary),
+   % 1=quadratic extrapolation (first order at boundary),
+   % 2=cubic extrapolation (second order at boundary)
 
 % --------------------------------
 
@@ -40,7 +41,9 @@ L=1; % Domain length
 % Time to compare at:
 if(periodic)
    T=1.0
-else
+elseif(adv_form==0)
+   T=0.5
+else   
    T=1.0
 end
 nu=0.25; % Desired advective CFL number (if ~no_advection)
@@ -71,12 +74,17 @@ elseif(no_advection)
 else % Choose value of diffusion
    %d=0 % Advection only
    %d=0.0001
-   d=0.001
-   %d=0.01
+   %d=0.001
+   d=0.01
    %d=0.1      
 end
 
-d_x = @(x) d*(2+cos(2*pi*x)); % Constant: d*ones(size(x))
+if(adv_form==0) % Constant coefficient simple test
+   d_x = @(x) d*ones(size(x));
+else % Variable coefficient (HW1 and HW2)
+   d_x = @(x) d*(2+cos(2*pi*x));
+end
+   
 % Desired diffusive CFL number mu=dt*d/L^2
 if(no_advection==2) % Large time step test for Crank-Nicolson
    mu=0.5*(d*T)/L^2; % Take only 1 step at coarser grid
@@ -90,10 +98,14 @@ if(manufactured) % For method of manufactured solution for exponent=2, from Mapl
    exponent=2;
    % Manufactured solution:
    % Required source term:
-   if(adv_form==1) % HW1: For a*(3/4-1/4*sin(4*pi*x)) and does not satisfy Neumann BC
+   switch adv_form
+   case 0 % Simpler case: Const a and d and satisfies BCs
+      SOL = @(x,t) sin(pi*x).^exponent;
+      s_xt = @(x,t) 0.2e1 .* a .* sin(pi .* x) .* pi .* cos(pi .* x) - 0.2e1 .* d .* pi .^ 2 .* cos(pi .* x) .^ 2 + 0.2e1 .* d .* sin(pi .* x) .^ 2 .* pi .^ 2;
+   case 1 % HW1: For a*(3/4-1/4*sin(4*pi*x)) and does not satisfy Neumann BC
       SOL = @(x,t) sin(pi*(x-a*t)).^exponent;   
       s_xt = @(x,t) pi .* a .* (-0.4e1 .* cos(0.4e1 .* pi .* x) + cos(0.2e1 .* pi .* (a .* t + x)) + 0.3e1 .* cos(0.2e1 .* pi .* (a .* t - 0.3e1 .* x)) + 0.2e1 .* sin(0.2e1 .* pi .* (a .* t - x))) / 0.8e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* (-a .* t + x)) .* cos(pi .* (-a .* t + x)) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* (-a .* t + x)) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* (-a .* t + x)) .^ 2 .* pi .^ 2;
-   else % HW2: For a*cos(t)*(3/4-1/4*sin(2*pi*x)) and satisfies Neumann BCs
+   otherwise % HW2: For a*cos(t)*(3/4-1/4*sin(2*pi*x)) and satisfies Neumann BCs
       SOL = @(x,t) sin(pi*x).^exponent;   
       s_xt = @(x,t) -cos(t) .* sin(pi .* x) .* (0.4e1 .* sin(pi .* x) .* cos(pi .* x) .^ 2 - sin(pi .* x) - 0.3e1 .* cos(pi .* x)) .* a .* pi / 0.2e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* x) .* cos(pi .* x) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* x) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* x) .^ 2 .* pi .^ 2;      
    end
@@ -126,8 +138,13 @@ elseif(no_advection==2);
    base=6;
    n_refinements=1;
 elseif(~periodic) % Focus on more refined grids
-   base=4;
-   n_refinements = 4; 
+   if(d==0.001) % Resolve boundary layer
+      base=5;
+      n_refinements = 4; 
+   else
+      base=4;
+      n_refinements = 4;    
+   end  
 else
    base=3;
    n_refinements = 5;
