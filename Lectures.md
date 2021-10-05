@@ -26,5 +26,3 @@ With all these pieces together, you should go back to the homework on [Basic met
 We will discuss how to implement Dirichlet or Neumann boundary conditions for advection-diffusion in one dimension. This is a rather complicated topic so my lectures will be more pragmatic and in your [second homework](Assignments/AdvDiff.pdf) you will try out some options and see how they work for yourself.
 
 It will be useful to review section 2.12 in the FD textbook of LeVeque (here are my own [lecture notes](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/FD_Elliptic_1D.pdf) from another class for this chapter), as most of that applies also to diffusion in finite volume methods.
-
-[Codes](Codes/BasicAdvDiff)
