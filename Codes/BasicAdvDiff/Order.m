@@ -12,16 +12,18 @@ clear
 format long; format compact
 
 % Options:
-global periodic; periodic=0;
+global periodic; periodic=1;
 global limited; limited =0; % Use limiters? (periodic only)
-global LW; LW=0; % Use Lax-Wendroff instead of Fromm to compare (periodic only)
+global LW; LW=1; % Use Lax-Wendroff instead of Fromm to compare (periodic only)
 stability=0; % If 1, test stability limit
-discontinuous=0; % If 1, use a square wave IC
+discontinuous=1; % If 0, use a smooth initial condition
+                 % If 1, use a square wave IC
+                 % If 2, use a wave packet
 no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
-adv_form=2; % If 0, set a=const. 
+adv_form=0; % If 0, set a=const. 
             % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
             % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
-manufactured=1; % Use method of manufactured solutions
+manufactured=0; % Use method of manufactured solutions
 
 % If not periodic, various options for implementing the Dirichlet BC on inflow boundary:
 global second_face_BC; second_face_BC = 2; 
@@ -72,12 +74,14 @@ if(stability) % Test stability limit is only advection and not diffusion
 elseif(no_advection)
    d=0.01;
 else % Choose value of diffusion
-   %d=0 % Advection only
+   d=0 % Advection only
    %d=0.0001
    %d=0.001
-   d=0.01
+   %d=0.01
    %d=0.1      
 end
+
+N_boundary_layer = L*a/d
 
 if(adv_form==0) % Constant coefficient simple test
    d_x = @(x) d*ones(size(x));
@@ -112,15 +116,15 @@ if(manufactured) % For method of manufactured solution for exponent=2, from Mapl
    
 else % Solve original PDE
 
-   exponent = 2; % Smooth solution
+   %exponent = 2; % Smooth solution
    %exponent = 100; % Not so smooth solution
-   %exponent = 20; % A bit smoother but not very smooth
+   exponent = 20; % A bit smoother but not very smooth
 
    % Solution for constant advection speed and no diffusion:
    if(~discontinuous)
       SOL = @(x,t) sin(pi*(x-a*t)).^exponent;
-   else   
-      SOL = @(x,t) sign(x-a*t-0.4)-sign(x-a*t-0.6); % Test square wave for limiting
+   else  % Test square wave for limiting
+      SOL = @(x,t) -sign(x-mod(a*t-0.4,L))+sign(x-mod(a*t-0.6,L)); 
    end      
    
    s_xt = @(x,t) 0; % No source term
@@ -137,13 +141,13 @@ if(stability)
 elseif(no_advection==2);
    base=6;
    n_refinements=1;
-elseif(~periodic) % Focus on more refined grids
-   if(d==0.001) % Resolve boundary layer
-      base=5;
-      n_refinements = 4; 
-   else
+elseif(~periodic) % Boundary errors require some care to see
+   if(manufactured) % Resolve and under-resolve boundary layer
+      base=3;
+      n_refinements = 6; 
+   else % Focus on more refined grids
       base=4;
-      n_refinements = 4;    
+      n_refinements = 5;    
    end  
 else
    base=3;
@@ -183,11 +187,13 @@ for i=n_refinements:-1:1
    if(manufactured) % We know the exact solution here
       u_exact = SOL(x,T); % Because only up to second order 
          % we can just pretend this is finite difference and evaluate at center
+   elseif((adv_form==0) & (d==0))
+      u_exact = SOL(x,T); % Solution just translates due to advection   
    else % Compare to finer grid as no exact solution known
       u_exact = Coarsen(u_finer, 2);
    end
    figure(3);
-   if(i==n_refinements) plot(x, u_exact,[colors(i),'-']); hold on; end
+   if(i==n_refinements) plot(x, u_exact,[colors(i),'s-']); hold on; end
    plot(x, u, [colors(i),'o--']); hold on; 
    
    figure(2);
