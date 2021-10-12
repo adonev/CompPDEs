@@ -21,8 +21,14 @@ The stability analysis of second-order space-time schemes for advection-diffusio
 
 With all these pieces together, you should go back to [part 1.1 in the homework on advection-diffusion equations](Assignments/AdvDiff.pdf). If you wish to use a MOL method (say with third-order upwind biased flux for advection), you may find the following [IMEX temporal integrators](Lectures/IMEX.pdf) useful. The IMEX RK schemes in these notes are based on the article by [Pareschi and Russo on "Implicit-explicit Runge-Kutta schemes and applications to hyperbolic systems with relaxation"](https://link.springer.com/article/10.1007/s10915-004-4636-4), which derives a (recommended!) scheme that combines (SSP-)RK3 for advection with an L-stable (DIRK-)RK2 scheme for diffusion. Some sample codes will be posted here later on.
 
-### 3. (Oct 6th) [Boundary Conditions for Advection-Diffusion](Lectures/AdvDiffBCs.pdf) ([annotated](Lectures/AdvDiffBCs_class.pdf))
+### 3. (Oct 6th and 13th) [Boundary Conditions for Advection-Diffusion](Lectures/AdvDiffBCs.pdf) ([annotated](Lectures/AdvDiffBCs_class.pdf))
 
 We will discuss how to implement Dirichlet or Neumann boundary conditions for advection-diffusion in one dimension. This is a rather complicated topic so my lectures will be more pragmatic and in your [second homework](Assignments/AdvDiff.pdf) you will try out some options and see how they work for yourself.
 
 It will be useful to review section 2.12 in the FD textbook of LeVeque (here are my own [lecture notes](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/FD_Elliptic_1D.pdf) from another class for this chapter), as most of that applies also to diffusion in finite volume methods.
+
+### 4. (Oct 13th) [Limiters](Lectures/Limiters.pdf) ([annotated](Lectures/Limiters_class.pdf))
+
+We will briefly discuss the use of slope and flux limiters in advection to preserve monotonicity / avoid oscillations in the solution, based on Sections 6.9-6.12 in the FVM book of LeVeque. Another great self-contained reading are the [lecture notes from V. Springel and C.P. Dullemond](Lectures/SlopeLimiters_Notes.pdf).
+
+For a discussion of limiters that are able to preserve local extrema without clipping them, and can thus remain higher-order even near extrema, see this [final project report on the PPM limiter by Wenjun Zhao (Brown)](Lectures/QuadraticLimiters_WenjunZhao.pdf). This is also a great example of a good final project for this class.
