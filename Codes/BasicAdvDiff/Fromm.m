@@ -4,7 +4,7 @@
 % We assume all velocities on all faces are non-negative
 function w_t = Fromm(w, a_xt, DBC, dt, h, source, n, t, x, x_mid)
   
-   global limited; % Use minmod limiter
+   global limited; % Use MC limiter
    global LW; % Use Lax-Wendroff instead of Fromm
    global periodic; % Periodic BCs or not
    global second_face_BC; % How to compute fluxes on second face
@@ -23,7 +23,7 @@ if(periodic)
    if(limited) % Try limiters
 
       %phi = @(theta) (1+theta)/2; % Fromm method rewritten with a "limiter"
-      phi = @(theta) max(0, min(min((1+theta)/2,2),2*theta)); % A nonlinear limiter
+      phi = @(theta) max(0, min(min((1+theta)/2,2),2*theta)); % The MC nonlinear limiter
       my_sign = @(x) sign(sign(x)+10*eps); % Returns either +1 or -1 but never zero
    
       % Limited slopes:

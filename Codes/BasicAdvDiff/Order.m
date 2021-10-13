@@ -12,18 +12,18 @@ clear
 format long; format compact
 
 % Options:
-global periodic; periodic=1;
-global limited; limited =0; % Use limiters? (periodic only)
-global LW; LW=1; % Use Lax-Wendroff instead of Fromm to compare (periodic only)
+global periodic; periodic=0;
+global limited; limited = 0; % Use limiters? (periodic only)
+global LW; LW=0; % Use Lax-Wendroff instead of Fromm (periodic only, no limiter)
 stability=0; % If 1, test stability limit
-discontinuous=1; % If 0, use a smooth initial condition
+discontinuous=0; % If 0, use a smooth initial condition
                  % If 1, use a square wave IC
                  % If 2, use a wave packet
 no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
 adv_form=0; % If 0, set a=const. 
             % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
             % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
-manufactured=0; % Use method of manufactured solutions
+manufactured=1; % Use method of manufactured solutions
 
 % If not periodic, various options for implementing the Dirichlet BC on inflow boundary:
 global second_face_BC; second_face_BC = 2; 
@@ -32,7 +32,7 @@ global second_face_BC; second_face_BC = 2;
 global last_face_BC; last_face_BC = 2; % 0=simple upwind,...
    % 1=upwinded slopes ala Beam-Warming for last face,...
    % 2=Beam-Warming update for last cell
-global diffusion_ghost_cell; diffusion_ghost_cell=2; % Dirichlet BC for diffusion operator
+global diffusion_ghost_cell; diffusion_ghost_cell=0; % Dirichlet BC for diffusion operator
    % 0=linear extrapolation to ghost cell (inconsistent at boundary),
    % 1=quadratic extrapolation (first order at boundary),
    % 2=cubic extrapolation (second order at boundary)
@@ -44,7 +44,7 @@ L=1; % Domain length
 if(periodic)
    T=1.0
 elseif(adv_form==0)
-   T=0.5
+   T=1.0
 else   
    T=1.0
 end
@@ -74,9 +74,9 @@ if(stability) % Test stability limit is only advection and not diffusion
 elseif(no_advection)
    d=0.01;
 else % Choose value of diffusion
-   d=0 % Advection only
+   %d=0 % Advection only
    %d=0.0001
-   %d=0.001
+   d=0.001
    %d=0.01
    %d=0.1      
 end
@@ -121,10 +121,13 @@ else % Solve original PDE
    exponent = 20; % A bit smoother but not very smooth
 
    % Solution for constant advection speed and no diffusion:
-   if(~discontinuous)
+   switch discontinuous
+   case 0
       SOL = @(x,t) sin(pi*(x-a*t)).^exponent;
-   else  % Test square wave for limiting
+   case 1  % Test square wave for limiting
       SOL = @(x,t) -sign(x-mod(a*t-0.4,L))+sign(x-mod(a*t-0.6,L)); 
+   case 2  % Test wave packet for limiting   
+      SOL = @(x,t) sin(pi*(x-a*t)).^10 .* sin(20*pi*(x-a*t));
    end      
    
    s_xt = @(x,t) 0; % No source term
@@ -151,7 +154,7 @@ elseif(~periodic) % Boundary errors require some care to see
    end  
 else
    base=3;
-   n_refinements = 5;
+   n_refinements = 6;
 end
 colors=['k','r','g','b','m','c'];   
 
@@ -214,11 +217,11 @@ error_L2
 error_Linf
 
 figure(1); clf;
-loglog(h, error_L1/error_L1(1), 'ro'); hold on;
-loglog(h, error_L2/error_L2(1), 'ks'); hold on;
-loglog(h, error_Linf/error_Linf(1), 'gd'); hold on;
-loglog(h, (h/h(1)).^2, 'r-');
-loglog(h, (h/h(1)).^1, 'g-');
+loglog(h, error_L1/error_L1(end), 'ro'); hold on;
+loglog(h, error_L2/error_L2(end), 'ks'); hold on;
+loglog(h, error_Linf/error_Linf(end), 'gd'); hold on;
+loglog(h, (h/h(end)).^2, 'r-');
+loglog(h, (h/h(end)).^1, 'g-');
 legend('L1','L2','Linf','2nd','1st','Location','southeast');
 xlabel('Resolution (h)'); ylabel('Error');
 title('Error NORM convergence under space-time refinement');
