@@ -27,8 +27,8 @@ We will discuss how to implement Dirichlet or Neumann boundary conditions for ad
 
 It will be useful to review section 2.12 in the FD textbook of LeVeque (here are my own [lecture notes](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/FD_Elliptic_1D.pdf) from another class for this chapter), as most of that applies also to diffusion in finite volume methods.
 
-### 4. (Oct 13th) [Limiters](Lectures/Limiters.pdf) ([annotated](Lectures/Limiters_class.pdf))
+### 4. (Oct 20th) [Limiters](Lectures/Limiters.pdf) ([annotated](Lectures/Limiters_class.pdf))
 
-We will briefly discuss the use of slope and flux limiters in advection to preserve monotonicity / avoid oscillations in the solution, based on Sections 6.9-6.12 in the FVM book of LeVeque. Another great self-contained reading are the [lecture notes from V. Springel and C.P. Dullemond](Lectures/SlopeLimiters_Notes.pdf).
+We will briefly discuss the use of slope and flux limiters in "high-resolution advection" schemes as a way to preserve monotonicity / avoid oscillations in the solution, based on Sections 6.9-6.12 in the FVM book of LeVeque. Another good self-contained reading are the [lecture notes from V. Springel and C.P. Dullemond](Lectures/SlopeLimiters_Notes.pdf).
 
 For a discussion of limiters that are able to preserve local extrema without clipping them, and can thus remain higher-order even near extrema, see this [final project report on the PPM limiter by Wenjun Zhao (Brown)](Lectures/QuadraticLimiters_WenjunZhao.pdf). This is also a great example of a good final project for this class.
