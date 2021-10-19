@@ -41,5 +41,6 @@ The 2nd order scheme I present here is sometimes called the [MUSCL-Hancock schem
 
 ### 6. (Oct 27th) (Pseudo)Spectral Methods
 
-Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here are some of [my own notes on spectral methods](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-Spectral.handout.pdf), including a [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)), and material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
+Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is my own [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
 
+You should also review sections 1 and 2 in [my notes on spectral methods for PDEs](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-Spectral.handout.pdf); we will go through section 3 in class; section 4 explains how to use FFTs to compute Chebyshev series.
