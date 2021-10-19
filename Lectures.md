@@ -39,3 +39,7 @@ We will (too) briefly discuss how to generalize the first- and second-order meth
 
 The 2nd order scheme I present here is sometimes called the [MUSCL-Hancock scheme](https://en.wikipedia.org/wiki/MUSCL_scheme) and is taken from section 6.6 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_6.pdf). Approximate Riemann solvers that are are actually used to implement this type of method in practice are briefly covered in chapter 7 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_7.pdf).
 
+### 6. (Oct 27th) (Pseudo)Spectral Methods
+
+Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here are some of [my own notes on spectral methods](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-Spectral.handout.pdf), including a [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)), and material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
+
