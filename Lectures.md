@@ -33,13 +33,13 @@ We will briefly discuss the use of slope and flux limiters in "high-resolution a
 
 For a discussion of limiters that are able to preserve local extrema without clipping them, and can thus remain higher-order even near extrema, see this [final project report on the PPM limiter by Wenjun Zhao (Brown)](Lectures/QuadraticLimiters_WenjunZhao.pdf). This is also a great example of a good final project for this class.
 
-### 5. (Oct 20th ?) [Nonlinear conservation laws](Lectures/ConservationLawsGodunov.pdf) ([annotated](Lectures/ConservationLawsGodunov_class.pdf))
+### 5. (Oct 20th and Oct 27th) [Nonlinear conservation laws](Lectures/ConservationLawsGodunov.pdf) ([annotated](Lectures/ConservationLawsGodunov_class.pdf))
 
 We will (too) briefly discuss how to generalize the first- and second-order methods we developed for advection to more general nonlinear hyperbolic equations. This discussion has to be brief because a complete development requires a considerable amount of PDE theory (e.g., weak entropy solutions), because even for simple equations like the shallow water equations there is very little proven in terms of guarantees on convergence, and because there are too many great but specialized methods developed for specific important equations that appear in practice (e.g., Euler, shallow water). A rather complete (but often hard to digest because of the completeness) source is the FVM book of LeVeque.
 
 The 2nd order scheme I present here is sometimes called the [MUSCL-Hancock scheme](https://en.wikipedia.org/wiki/MUSCL_scheme) and is taken from section 6.6 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_6.pdf). Approximate Riemann solvers that are are actually used to implement this type of method in practice are briefly covered in chapter 7 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_7.pdf).
 
-### 6. (Oct 27th) (Pseudo)Spectral Methods
+### 6. (Oct 27th) (Pseudo)Spectral Methods for Periodic Evolution Equations
 
 Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is my own [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
 
