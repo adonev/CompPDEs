@@ -39,6 +39,8 @@ We will (too) briefly discuss how to generalize the first- and second-order meth
 
 The 2nd order scheme I present here is sometimes called the [MUSCL-Hancock scheme](https://en.wikipedia.org/wiki/MUSCL_scheme) and is taken from section 6.6 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_6.pdf). Approximate Riemann solvers that are are actually used to implement this type of method in practice are briefly covered in chapter 7 in the [lecture notes from V. Springel and C.P. Dullemond](https://www.ita.uni-heidelberg.de/~dullemond/lectures/num_fluid_2012/Chapter_7.pdf).
 
+For an example of a robust 2nd order high resolution TVD scheme for scalar one dimensional conservation laws, look at the paper ["A geometric approach to high resolution TVD schemes" by Jonathan Goodman and Randy LeVeque](https://doi.org/10.1137/0725019). This paper can form the basis of a final project combining some theory and computation.
+
 ### 6. (Oct 27th) (Pseudo)Spectral Methods for Periodic Evolution Equations
 
 Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is my own [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
