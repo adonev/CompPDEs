@@ -59,3 +59,8 @@ We will not have time to cover in this class the important class of semi-Lagrang
 2. Chapter 6 in the book [Numerical Methods for Wave Equations in Geophysical Fluid Dynamics by Dale R. Durran](https://link.springer.com/book/10.1007/978-1-4757-3081-4)
 3. The complete book [Semi-Lagrangian Advection Methods and Their Applications in Geoscience by Steven J. Fletcher](https://www.sciencedirect.com/book/9780128172223/semi-lagrangian-advection-methods-and-their-applications-in-geoscience)
 
+### 8. (Nov) [Pseudospectral methods for incompressible flow in 2D](Lectures/VorticityStream.pdf)
+
+After formulating the vorticity-stream formulation of the incompressible NS equations, we will go through a simple pseudo-spectral method for two-dimensional periodic flow. Note that there is an [associated homework](Assignments/PseudospectralNS.pdf).
+
+Idea for final project: Implement a pseudospectral solver for the NS equations in 3D for periodic domains, and explore anti-aliasing strategies; see for example this [article on computing nearly-singular solutions](https://doi.org/10.1016/j.jcp.2007.04.014). In three dimensions, a manufactured analytical solution can be found in the paper ["Tri-periodic fully three-dimensional analytic solutions for the Navier-Stokes equations" by M. Antuono](https://doi.org/10.1017%2Fjfm.2020.126).
