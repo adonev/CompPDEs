@@ -43,8 +43,17 @@ For an example of a robust 2nd order high resolution TVD scheme for scalar one d
 
 ### 6. (Oct 27th) (Pseudo)Spectral Methods for Periodic Evolution Equations
 
-Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is my own [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre).
+Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is my own [lecture on the FFT](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orhogonal polynomials (Chebyshev or Legendre), including both interpolation and quadrature.
 
 You should also review ahead of class sections 1 and 2 in [my notes on spectral methods for PDEs](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/Lecture-Spectral.handout.pdf); we will go through sections 3 and 4 in class; section 4 explains how to use FFTs to compute Chebyshev series.
 
 We will also go over [exponential time integrators](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/ExponentialIntegration.pdf) as a way to solve evolution equations, notably parabolic or mixed parabolic-hyperbolic equations like the incompressible Navier-Stokes equation (next lecture). Exponential integrators are covered briefly in section 11.6 of LeVeque. The original source of ETDRK schemes is the paper ["Exponential time differencing for stiff systems" by Cox and Matthews](https://www.math.fsu.edu/%7Eokhanmoh/media/Cox,%20Matthews,%20JCP,%202002,%20Exponential%20Time%20Differencing%20for%20Stiff%20Systems.pdf). Another more recent article from the group of Nick Trefethen discusses a [4th order exponential integrator method (ETDRK4)](https://people.maths.ox.ac.uk/trefethen/fourth-order.pdf) for time stepping a system of ODEs in time. Here is a [pseudospectral code to solve the KdV equation](https://cims.nyu.edu/%7Edonev/Teaching/PDE/Matlab/KdV.m) (i.e., to solve [u_t+u*u_x+u_xxx=0](https://en.wikipedia.org/wiki/Korteweg%E2%80%93de_Vries_equation)) using ETDRK4, written by A. K. Kassam and L. N. Trefethen with some small changes by me. This code does something smart to avoid roundoff problems (catastrophic cancellation). 
+
+### 7. (Independent Reading) Semi-Lagrangian advection methods
+
+We will not have time to cover in this class the important class of semi-Lagrangian methods for advection, but this can be a topic of a final project. A first reading is section 10.6 in the FD book of LeVeque. The main advantage of (semi-)Lagrangian methods over the Eulerian methods we have been focusing on is that they can help increase the stable time step. For further reading, consult one of these sources (all available electronically freely at NYU):
+
+1. The article ["The semi-Lagrangian technique in atmospheric modelling" by Michail Diamantakis](https://www.ecmwf.int/sites/default/files/elibrary/2014/9054-semi-lagrangian-technique-atmospheric-modelling-current-status-and-future-challenges.pdf)
+2. Chapter 6 in the book [Numerical Methods for Wave Equations in Geophysical Fluid Dynamics by Dale R. Durran](https://link.springer.com/book/10.1007/978-1-4757-3081-4)
+3. The complete book [Semi-Lagrangian Advection Methods and Their Applications in Geoscience by Steven J. Fletcher](https://www.sciencedirect.com/book/9780128172223/semi-lagrangian-advection-methods-and-their-applications-in-geoscience)
+
