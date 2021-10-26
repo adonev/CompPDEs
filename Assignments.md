@@ -14,3 +14,7 @@ Please go through chapter 10 in the Finite Difference (FD) textbook of LeVeque (
 ### 2. (Due Oct 17th) [Second order finite volume methods for advection-diffusion equations](Assignments/AdvDiff.pdf)
 
 This homework is a repeat of the first homework, but now with more specific goals. Make sure to follow the suggestions discussed and demo'ed in class. Make sure you use the correct definition of function norm (as opposed to vector norms), as explained in Appendix A.5 in the FD book of LeVeque.
+
+### 3. (Due Dec 5th) [Pseudo-spectral solver for the two-dimensional Navier-Stokes equations](Assignments/PseudospectralNS.pdf)
+
+This is the final homework for this class. You are encouraged to submit part 1 first for initial comments and then continue to work on part 2. You are also strongly encouraged to pay attention to code design because a well-written code will make it very easy to, for example, add part 2 once part 1 is finished.
