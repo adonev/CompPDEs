@@ -72,7 +72,7 @@ Idea for final project: Implement a pseudospectral solver for the NS equations i
 ### 9. Other topics for final project
 
 Other topics suitable for final projects, some of which we will cover in the class but not all, are:
-* Finite difference/volume/element methods for incompressible Navier-Stokes (coupled to a scalar equation for an advected quantity, for example). See, for example, the paper ["An accurate and efficient method for the incompressible Navier\u2013Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith.
+* Finite difference/volume/element methods for incompressible Navier-Stokes (coupled to a scalar equation for an advected quantity, for example). See, for example, the paper ["An accurate and efficient method for the incompressible Navier-Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith.
 * Finite element methods for elasticity in two dimensions
 * Immersed-boundary methods for fluid-structure interaction
 * Boundary integral methods for Laplace/Stokes equations
