@@ -43,7 +43,7 @@ The 2nd order scheme I present here is sometimes called the [MUSCL-Hancock schem
 
 For an example of a robust 2nd order high resolution TVD scheme for scalar one dimensional conservation laws, look at the paper ["A geometric approach to high resolution TVD schemes" by Jonathan Goodman and Randy LeVeque](https://doi.org/10.1137/0725019). This paper can form the basis of a final project combining some theory and computation. Another possible final project is to consider solving the shallow water equations in 1D and 2D using a Godunov method.
 
-### 6. (Oct 27th) (Pseudo)Spectral Methods for Periodic Evolution Equations
+### 6. (Oct 27th and Nov 3rd) (Pseudo)Spectral Methods for Periodic Evolution Equations
 
 Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is [my own lecture on Fourier series and the FFT](Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orthogonal polynomials (Chebyshev or Legendre), including both interpolation and quadrature.
 
@@ -65,13 +65,21 @@ We will not have time to cover in this class the important class of semi-Lagrang
 2. Chapter 6 in the book [Numerical Methods for Wave Equations in Geophysical Fluid Dynamics by Dale R. Durran](https://link.springer.com/book/10.1007/978-1-4757-3081-4)
 3. The complete book [Semi-Lagrangian Advection Methods and Their Applications in Geoscience by Steven J. Fletcher](https://www.sciencedirect.com/book/9780128172223/semi-lagrangian-advection-methods-and-their-applications-in-geoscience)
 
-### 8. (Nov) [Pseudospectral methods for incompressible flow in 2D](Lectures/VorticityStream.pdf)
+### 8. (Nov 3rd) [Pseudospectral methods for incompressible flow in 2D](Lectures/VorticityStream.pdf)
 
 After formulating the vorticity-stream formulation of the incompressible NS equations, we will go through a simple pseudo-spectral method for two-dimensional periodic flow. Note that there is an [associated homework](Assignments/PseudospectralNS.pdf).
 
 Idea for final project: Implement a pseudospectral solver for the NS equations in 3D for periodic domains, and explore anti-aliasing strategies; see for example this [article on computing nearly-singular solutions](https://doi.org/10.1016/j.jcp.2007.04.014). In three dimensions, a manufactured analytical solution can be found in the paper ["Tri-periodic fully three-dimensional analytic solutions for the Navier-Stokes equations" by M. Antuono](https://doi.org/10.1017%2Fjfm.2020.126).
 
-### 9. Other topics for final project
+### 9. (Nov 10th and 17th) Spectral methods for elliptic PDEs in bounded domains.
+
+We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but delicate details imposing the PDE (weakly using Galerkin or strongly using collocation) and imposing boundary conditions. I will discuss both weak imposition in Galerkin methods and strong imposition using a spectral equivalent of the "ghost cell" technique described pedagogically in the paper ["Block Operators and Spectral Discretizations" by Aurentz and Trefethen](https://people.maths.ox.ac.uk/trefethen/blocks_final.pdf) based on the method proposed in the paper ["Rectangular spectral collocation" by Driscoll and N. Hale](https://doi.org/10.1093/imanum/dru062).
+
+For software/methods for solving evolution PDEs in bounded (but logically rectangular) 2D and 3D domains using orthogonal polynomial basis see the [Dedalus](https://dedalus-project.org/) package.
+
+Note that FFT-based methods can be used to solve elliptic PDEs in irregular domains by using extention into a rectangular periodic domain. This can also be a topic of a final project. I suggest looking at the paper [The smooth forcing extension method by Qadeer and Griffith](https://doi.org/10.1016/j.jcp.2021.110390) for a simple yet accurate approach.
+
+### 10. Other topics for final project
 
 Other topics suitable for final projects, some of which we will cover in the class but not all, are:
 * Finite difference/volume/element methods for incompressible Navier-Stokes (coupled to a scalar equation for an advected quantity, for example). See, for example, the paper ["An accurate and efficient method for the incompressible Navier-Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith.
