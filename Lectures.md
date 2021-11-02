@@ -73,7 +73,7 @@ Idea for final project: Implement a pseudospectral solver for the NS equations i
 
 ### 9. (Nov 10th and 17th) Spectral methods for elliptic PDEs in bounded domains.
 
-We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but delicate details imposing the PDE (weakly using Galerkin or strongly using collocation) and imposing boundary conditions.
+We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but the dilemma is in how to impose the PDE (weakly using Galerkin or strongly using collocation, or some other approach) and how to impose boundary conditions.
 
 You will also need background material from Numerical Methods I on orthogonal polynomials (Chebyshev or Legendre), including both interpolation and quadrature. A complete source on all of these topics and more is the book ["Spectral Methods in Matlab" by Nick Trefethen](https://epubs.siam.org/doi/book/10.1137/1.9780898719598), which includes lots of [MATLAB codes](https://people.maths.ox.ac.uk/trefethen/spectral.html). See section 4 in [my notes on spectral methods for PDEs](Lectures/Lecture-Spectral.handout.pdf) for a summary of how to use FFTs to compute Chebyshev series. Lots of numerical analysis tools built around Chebyshev polynomials are in the [Matlab chebfun library](https://www.chebfun.org/).
 
