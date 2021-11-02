@@ -23,7 +23,7 @@ With all these pieces together, you should go back to [part 1.1 in the homework 
 
 ### 3. (Oct 6th and 13th) [Boundary Conditions for Advection-Diffusion](Lectures/AdvDiffBCs.pdf) ([annotated](Lectures/AdvDiffBCs_class.pdf))
 
-We will discuss how to implement Dirichlet or Neumann boundary conditions for advection-diffusion in one dimension. This is a rather complicated topic so my lectures will be more pragmatic and in your [second homework](Assignments/AdvDiff.pdf) you will try out some options and see how they work for yourself.
+We will discuss how to implement Dirichlet or Neumann boundary conditions for advection-diffusion in one dimension. This is a rather complicated topic so my lectures will be more pragmatic and in your [second homework](Assignments/AdvDiff.pdf) you will try out some options and see how they work for yourself. Here is an exerpt from a [Maple sheet computing formulas for extrapolation into ghost cells](Lectures/ExtrapolationGhostCells.pdf) in the finite difference and also in the volume framework; this may be useful especially if you are trying to get 3rd order accuracy for advection with a MOL method for the homework.
 
 It will be useful to review section 2.12 in the FD textbook of LeVeque (here are my own [lecture notes](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/FD_Elliptic_1D.pdf) from another class for this chapter), as most of that applies also to diffusion in finite volume methods.
 
@@ -45,7 +45,7 @@ For an example of a robust 2nd order high resolution TVD scheme for scalar one d
 
 ### 6. (Oct 27th and Nov 3rd) (Pseudo)Spectral Methods for Periodic Evolution Equations
 
-Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is [my own lecture on Fourier series and the FFT](Lectures/Lecture-FFT.handout.pdf)). You will also need background material from Numerical Methods I on orthogonal polynomials (Chebyshev or Legendre), including both interpolation and quadrature.
+Before coming to class, please review material from Numerical Methods II on Fourier Transforms including FFTs (here are some [notes from Leslie Greengard](Lectures/NMII_Leslie_FFT.pdf), and here is [my own lecture on Fourier series and the FFT](Lectures/Lecture-FFT.handout.pdf)).
 
 You should also review ahead of class sections 1 and 2 in [my notes on spectral methods for PDEs](Lectures/Lecture-Spectral.handout.pdf); we will go through sections 3 and 4 in class; section 4 explains how to use FFTs to compute Chebyshev series. See also these [short notes on handling the unmatched mode](Lectures/SolutionPseudoKdV.pdf) for even-sized grids. There are some subtle issues with spectral differentiation, as discused in detail in these [technical notes by Steven G. Johnson](Lectures/SpectralDerivatives_FFT.pdf), as well as with aliasing, as discussed in these [selected pages on aliasing](Lectures/Aliasing.pdf) from the detailed [notes on pseudospectral methods by Denys Dutykh](https://arxiv.org/abs/1606.05432v1). For the approximation theory behind using Fourier series as an approximation to periodic functions, see sections 2,3 and 4 in the paper ["Extension of Chebfun to periodic functions" by Nick Trefethen](https://epubs.siam.org/doi/pdf/10.1137/141001007). 
 
@@ -73,7 +73,13 @@ Idea for final project: Implement a pseudospectral solver for the NS equations i
 
 ### 9. (Nov 10th and 17th) Spectral methods for elliptic PDEs in bounded domains.
 
-We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but delicate details imposing the PDE (weakly using Galerkin or strongly using collocation) and imposing boundary conditions. I will discuss both weak imposition in Galerkin methods and strong imposition using a spectral equivalent of the "ghost cell" technique described pedagogically in the paper ["Block Operators and Spectral Discretizations" by Aurentz and Trefethen](https://people.maths.ox.ac.uk/trefethen/blocks_final.pdf) based on the method proposed in the paper ["Rectangular spectral collocation" by Driscoll and N. Hale](https://doi.org/10.1093/imanum/dru062).
+We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but delicate details imposing the PDE (weakly using Galerkin or strongly using collocation) and imposing boundary conditions.
+
+You will also need background material from Numerical Methods I on orthogonal polynomials (Chebyshev or Legendre), including both interpolation and quadrature. A complete source on all of these topics and more is the book ["Spectral Methods in Matlab" by Nick Trefethen](https://epubs.siam.org/doi/book/10.1137/1.9780898719598), which includes lots of [MATLAB codes](https://people.maths.ox.ac.uk/trefethen/spectral.html). See section 4 in [my notes on spectral methods for PDEs](Lectures/Lecture-Spectral.handout.pdf) for a summary of how to use FFTs to compute Chebyshev series. Lots of numerical analysis tools built around Chebyshev polynomials are in the [Matlab chebfun library](https://www.chebfun.org/).
+
+I will discuss both weak imposition in Galerkin methods and strong imposition using a spectral equivalent of the "ghost cell" technique described pedagogically in the paper ["Block Operators and Spectral Discretizations" by Aurentz and Trefethen](https://people.maths.ox.ac.uk/trefethen/blocks_final.pdf) based on the method proposed in the paper ["Rectangular spectral collocation" by Driscoll and N. Hale](https://doi.org/10.1093/imanum/dru062).
+
+A state-of-the-art spectral solver for one dimensional BVPs with non-constant coefficients is described in the paper ["A fast and well-conditioned spectral method" by S. Olver and A. Townsend](https://epubs.siam.org/doi/abs/10.1137/120865458) and can form the basis of a final project. Note that this solver, like most non-Galerkin spectral methods, does not preserve the structure of Sturm-Louiville problems (e.g., the definiteness of the 2nd order operator).
 
 For software/methods for solving evolution PDEs in bounded (but logically rectangular) 2D and 3D domains using orthogonal polynomial basis see the [Dedalus](https://dedalus-project.org/) package.
 
@@ -98,6 +104,7 @@ Examples of some libraries/tools that you may consider learning and using:
 * [Dedalus](https://dedalus-project.org/) is a library of pseudo-spectral solvers
 * [FEniCSx](https://fenicsproject.org/) is an easy-to-use yet powerful framework for finite-element based PDE solvers
 * [OpenFOAM](https://www.openfoam.com/) is a commercial but free library/package for finite-volume based PDE solvers
+* [chebfun](https://www.chebfun.org/) is a library of numerical analysis tools built around Chebyshev polynomials.
 * [EPIC](https://faculty.ucmerced.edu/mtokman/#software) is a library of exponential time integrators.
 * [fiNUFFT](https://finufft.readthedocs.io/en/latest/) is a library for non-uniform FFTs if you need that as part of your project.
 * [FMM3D](https://fmm3d.readthedocs.io/en/latest/) is a 3D Fast Multipole Method library for Poisson and Helmholtz kernels, which can be useful if you want to do boundary integral methods.
