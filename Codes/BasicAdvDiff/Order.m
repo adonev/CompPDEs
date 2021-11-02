@@ -12,7 +12,7 @@ clear
 format long; format compact
 
 % Options:
-global periodic; periodic=0;
+global periodic; periodic=1;
 global limited; limited = 0; % Use limiters? (periodic only)
 global LW; LW=0; % Use Lax-Wendroff instead of Fromm (periodic only, no limiter)
 stability=0; % If 1, test stability limit
@@ -23,7 +23,7 @@ no_advection=0; % If 1, diffusion only test, If 2, use very large time steps
 adv_form=0; % If 0, set a=const. 
             % If 1, use ~a*(3/4-1/4*sin(4*pi*x)), else
             % If 2, use a~cos(t)*(3/4-1/4*sin(2*pi*x))
-manufactured=1; % Use method of manufactured solutions
+manufactured=0; % Use method of manufactured solutions
 
 % If not periodic, various options for implementing the Dirichlet BC on inflow boundary:
 global second_face_BC; second_face_BC = 2; 
@@ -56,7 +56,8 @@ if(no_advection)
    a_max=0.0; % Disable advection
 else   
    a_max=1.0; % Max advection speed
-end   
+end
+%a_max=0.1; nu=0.01; % Very large diffusive Courant number is a problem
 a=a_max;
 
 switch adv_form
@@ -76,9 +77,11 @@ elseif(no_advection)
 else % Choose value of diffusion
    %d=0 % Advection only
    %d=0.0001
-   d=0.001
-   %d=0.01
-   %d=0.1      
+   %d=0.001
+   d=0.01
+   %d=0.1
+   %d=1
+   %d=10
 end
 
 N_boundary_layer = L*a/d
@@ -100,18 +103,23 @@ end
 if(manufactured) % For method of manufactured solution for exponent=2, from Maple:
 
    exponent=2;
-   % Manufactured solution:
-   % Required source term:
+   % Manufactured solution and required source term
    switch adv_form
-   case 0 % Simpler case: Const a and d and satisfies BCs
+   case 0 % Simpler case: Const a and d and satisfies BCs   
       SOL = @(x,t) sin(pi*x).^exponent;
+   
       s_xt = @(x,t) 0.2e1 .* a .* sin(pi .* x) .* pi .* cos(pi .* x) - 0.2e1 .* d .* pi .^ 2 .* cos(pi .* x) .^ 2 + 0.2e1 .* d .* sin(pi .* x) .^ 2 .* pi .^ 2;
+   
    case 1 % HW1: For a*(3/4-1/4*sin(4*pi*x)) and does not satisfy Neumann BC
       SOL = @(x,t) sin(pi*(x-a*t)).^exponent;   
+   
       s_xt = @(x,t) pi .* a .* (-0.4e1 .* cos(0.4e1 .* pi .* x) + cos(0.2e1 .* pi .* (a .* t + x)) + 0.3e1 .* cos(0.2e1 .* pi .* (a .* t - 0.3e1 .* x)) + 0.2e1 .* sin(0.2e1 .* pi .* (a .* t - x))) / 0.8e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* (-a .* t + x)) .* cos(pi .* (-a .* t + x)) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* (-a .* t + x)) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* (-a .* t + x)) .^ 2 .* pi .^ 2;
+
    otherwise % HW2: For a*cos(t)*(3/4-1/4*sin(2*pi*x)) and satisfies Neumann BCs
       SOL = @(x,t) sin(pi*x).^exponent;   
+
       s_xt = @(x,t) -cos(t) .* sin(pi .* x) .* (0.4e1 .* sin(pi .* x) .* cos(pi .* x) .^ 2 - sin(pi .* x) - 0.3e1 .* cos(pi .* x)) .* a .* pi / 0.2e1 + 0.4e1 .* d .* pi .^ 2 .* sin(0.2e1 .* pi .* x) .* sin(pi .* x) .* cos(pi .* x) - 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* pi .^ 2 .* cos(pi .* x) .^ 2 + 0.2e1 .* d .* (0.2e1 + cos(0.2e1 .* pi .* x)) .* sin(pi .* x) .^ 2 .* pi .^ 2;      
+
    end
    
 else % Solve original PDE
@@ -200,13 +208,12 @@ for i=n_refinements:-1:1
    plot(x, u, [colors(i),'o--']); hold on; 
    
    figure(2);
-   plot(x, (u-u_exact)*4^i, [colors(i),'o-']);
-   %plot(x, (u-u_exact)/norm(u-u_exact,'inf'), [colors(i),'o-']);
+   plot(x, (u-u_exact)/h(i)^2, [colors(i),'o-']);
    hold on;
 
-   error_L1(i)=h(i)*norm(u-u_exact,1);
-   error_L2(i)=sqrt(h(i))*norm(u-u_exact,2);
-   error_Linf(i)=norm(u-u_exact,'inf');
+   error_L1(i)=DiscreteNorm(u-u_exact,h(i),1);
+   error_L2(i)=DiscreteNorm(u-u_exact,h(i),2);
+   error_Linf(i)=DiscreteNorm(u-u_exact,h(i),inf);;
    
    u_finer=u;
    x_finer=x;

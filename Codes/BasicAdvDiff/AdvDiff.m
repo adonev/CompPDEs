@@ -32,5 +32,7 @@ function [w,x,h] = AdvDiff(a_xt, d_x, s_xt, L, T, dt, n, IC, DBC)
          % Matlab allows you to have w be both input and output
          % But in other programming languages it may be different
    end
+   
+   u_max = norm(w,'inf') % Print out to see (in)stability
 
 end
