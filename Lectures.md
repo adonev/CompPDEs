@@ -106,3 +106,4 @@ Other topics suitable for final projects, some of which we will cover in the cla
 * Boundary integral methods for Laplace/Stokes equations
 * Hyperbolic systems of equations such as shallow-water equations in 2D.
 But you are welcome to come up with one of your own. 
+* Adaptive Mesh Refinement is an advanced topic but take a look at this brief [tutorial by Ann Almgren](https://ccse.lbl.gov/pub/almgren/Almgren_distinguished_lecture.mp4) (the first 25 minutes give the numerical analysis background).
