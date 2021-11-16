@@ -73,7 +73,7 @@ After formulating the vorticity-stream formulation of the incompressible NS equa
 
 Idea for final project: Implement a pseudospectral solver for the NS equations in 3D for periodic domains, and explore anti-aliasing strategies; see for example this [article on computing nearly-singular solutions](https://doi.org/10.1016/j.jcp.2007.04.014). In three dimensions, a manufactured analytical solution can be found in the paper ["Tri-periodic fully three-dimensional analytic solutions for the Navier-Stokes equations" by M. Antuono](https://doi.org/10.1017%2Fjfm.2020.126).
 
-### 9. (Nov 10th and 17th) [Spectral methods for elliptic PDEs in bounded domains](Lectures/SpectralBVPs.pdf) ([annotated](Lectures/SpectralBVPs_class.pdf))
+### 9. (Nov 10th) [Spectral methods for elliptic PDEs in bounded domains](Lectures/SpectralBVPs.pdf) ([annotated](Lectures/SpectralBVPs_class.pdf))
 
 We will briefly discuss (pseudo-spectral) methods for solving elliptic and by extension parabolic PDEs in non-periodic domains in one dimension. The basic idea is to use orthogonal polynomials (Chebyshev or Legendre) but the dilemma is in how to impose the PDE (weakly using Galerkin or strongly using collocation, or some other approach) and how to impose boundary conditions. What I will present is based on recent work by Ondrej Maxian on [electrostatics](https://arxiv.org/abs/2101.07088) and [slender fibers in Stokes flow](https://arxiv.org/abs/2007.11728).
 
@@ -89,10 +89,18 @@ For software/methods for solving evolution PDEs in bounded (but logically rectan
 
 Note that FFT-based methods can be used to solve elliptic PDEs in irregular domains by using extention into a rectangular periodic domain. This can also be a topic of a final project. I suggest looking at the paper [The smooth forcing extension method by Qadeer and Griffith](https://doi.org/10.1016/j.jcp.2021.110390) for a simple yet accurate approach.
 
-### 10. Other topics for final project
+### 10. [Incompressible Navier-Stokes Equations](Lectures/IncompressibleNS.pdf) ([annotated](Lectures/IncompressibleNS_class.pdf))
+
+I will present finite difference methods based on the MAC or staggered-grid second-order discretization of the incompressible Navier-Stokes equation. The spatial discretization is based in part on this [documentation by Benjamin Seibold](http://math.mit.edu/cse/codes/mit18086_navierstokes.pdf) for this [sample Matlab code](http://math.mit.edu/cse/codes/mit18086_navierstokes.m).
+
+However, the temporal discretizations I will present are different and not based on projection methods as most sources are. Instead, I will follow the unsplit approach described in the paper ["An accurate and efficient method for the incompressible Navier-Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith. This approach is common in the finite-element world. The article ["Divergence-free discontinuous Galerkin schemes for the Stokes equations and the MAC scheme" by Guido Kanschat](https://doi.org/10.1002/fld.1566) shows that in fact the MAC scheme is a peculiar Discontinuous Galerkin (DG) FEM scheme.
+
+If you want to learn more about classical projection methods, see the article ["Accurate Projection Methods for the Incompressible Navier-Stokes Equations" by Brown, Cortez and Minion](https://doi.org/10.1006/jcph.2001.6715).
+
+### X. Other topics for final project
 
 Other topics suitable for final projects, some of which we will cover in the class but not all, are:
-* Finite difference/volume/element methods for incompressible Navier-Stokes (coupled to a scalar equation for an advected quantity, for example). See, for example, the paper ["An accurate and efficient method for the incompressible Navier-Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith.
+* Finite difference/volume/element methods for incompressible Navier-Stokes (coupled to a scalar equation for an advected quantity, for example).
 * Finite element methods for elasticity in two dimensions
 * Immersed-boundary methods for fluid-structure interaction
 * Boundary integral methods for Laplace/Stokes equations
