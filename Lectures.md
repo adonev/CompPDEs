@@ -107,3 +107,12 @@ Other topics suitable for final projects, some of which we will cover in the cla
 * Hyperbolic systems of equations such as shallow-water equations in 2D.
 But you are welcome to come up with one of your own. 
 * Adaptive Mesh Refinement is an advanced topic but take a look at this brief [tutorial by Ann Almgren](https://ccse.lbl.gov/pub/almgren/Almgren_distinguished_lecture.mp4) (the first 25 minutes give the numerical analysis background).
+
+Examples of some libraries/tools that you may consider learning and using:
+* [Dedalus](https://dedalus-project.org/) is a library of pseudo-spectral solvers
+* [FEniCSx](https://fenicsproject.org/) is an easy-to-use yet powerful framework for finite-element based PDE solvers. The book "Introduction to Automated Modeling with FEniCs" by Ridgway Scott gives a lot of examples you can build on.
+* [OpenFOAM](https://www.openfoam.com/) is a commercial but free library/package for finite-volume based PDE solvers
+* [chebfun](https://www.chebfun.org/) is a library of numerical analysis tools built around Chebyshev polynomials.
+* [EPIC](https://faculty.ucmerced.edu/mtokman/#software) is a library of exponential time integrators.
+* [fiNUFFT](https://finufft.readthedocs.io/en/latest/) is a library for non-uniform FFTs if you need that as part of your project.
+* [FMM3D](https://fmm3d.readthedocs.io/en/latest/) is a 3D Fast Multipole Method library for Poisson and Helmholtz kernels, which can be useful if you want to do boundary integral methods.
