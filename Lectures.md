@@ -108,6 +108,10 @@ I will discuss classical Finite Element Methods (FEM) for parabolic and elliptic
 
 In the second half of the lecture I will discuss the basic idea behind the Discontinuous Galerkin (DEG) method for hyperbolic problems based on lecture notes by Sandra May. This method is a combination of FV and FE methods and still under active development, so we will not go into any detail. While DEG also works for parabolic problems, whether there is any advantage to that is still an open area of research and I will not cover that.
 
+If time permits I will very briefly discuss [Adaptive Mesh Refinement (AMR)](AMR_Tutorial_Almgren.pdf) using lecture notes by Ann Almgren. I encourage you to watch this [video tutorial by Ann Almgren](https://ccse.lbl.gov/pub/almgren/Almgren_distinguished_lecture.mp4) for more details (you can just watch the first half to get the basic ideas of block-structured AMR for hyperbolic and elliptic problems).
+
+An important aspect that we will not have time to cover are efficient linear solvers for the linear systems that arise in various grid-based FD/FV/FE methods, in particular for elliptic problems. While in 2D it is possible to use multifrontal direct solvers due to the abundance of memory on modern computers, for 3D iterative solvers based on algebraic or geometric **multigrid methods** are required; see these [lecture notes on geometric multigrid by William L. Briggs](http://www.math.ust.hk/%7Emawang/teaching/math532/mgtut.pdf). There are many existing libraries implementing such solvers.
+
 ### 13. (Dec 15) Immersed Boundary Methods and Boundary Integral Methods
 
 A brief discussion/comparison of two methods to handle more complex geometries, focusing on rigid bodies in Stokes flow.
