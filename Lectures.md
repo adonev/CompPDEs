@@ -90,13 +90,27 @@ For software/methods for solving evolution PDEs in bounded (but logically rectan
 
 Note that FFT-based methods can be used to solve elliptic PDEs in irregular domains by using extention into a rectangular periodic domain. This can also be a topic of a final project. I suggest looking at the paper [The smooth forcing extension method by Qadeer and Griffith](https://doi.org/10.1016/j.jcp.2021.110390) for a simple yet accurate approach.
 
-### 10. [Incompressible Navier-Stokes Equations](Lectures/IncompressibleNS.pdf) ([annotated](Lectures/IncompressibleNS_class.pdf))
+### 10. (Nov 17 and Nov 24) [Incompressible Navier-Stokes Equations](Lectures/IncompressibleNS.pdf) ([annotated](Lectures/IncompressibleNS_class.pdf))
 
 I will present finite difference methods based on the MAC or staggered-grid second-order discretization of the incompressible Navier-Stokes equation. The spatial discretization is based in part on this [documentation by Benjamin Seibold](http://math.mit.edu/cse/codes/mit18086_navierstokes.pdf) for this [sample Matlab code](http://math.mit.edu/cse/codes/mit18086_navierstokes.m).
 
 However, the temporal discretizations I will present are different and not based on projection methods as most sources are. Instead, I will follow the unsplit approach described in the paper ["An accurate and efficient method for the incompressible Navier-Stokes equations using the projection method as a preconditioner"](https://doi.org/10.1016/j.jcp.2009.07.001) by Boyce Griffith. This approach is common in the finite-element world. The article ["Divergence-free discontinuous Galerkin schemes for the Stokes equations and the MAC scheme" by Guido Kanschat](https://doi.org/10.1002/fld.1566) shows that in fact the MAC scheme is a peculiar Discontinuous Galerkin (DG) FEM scheme.
 
 If you want to learn more about classical projection methods, see the article ["Accurate Projection Methods for the Incompressible Navier-Stokes Equations" by Brown, Cortez and Minion](https://doi.org/10.1006/jcph.2001.6715).
+
+### 11. (Nov 24) Coding discussion over zoom
+
+See NYU Brightspace for zoom link and Happy Thanksgiving.
+
+### 12. (Dec 1 and 8) [Finite Element Method](Lectures/FEM.pdf) ([annotated](Lectures/FEM_class.pdf))
+
+I will discuss classical Finite Element Methods (FEM) for parabolic and elliptic problems, based on notes by Georg Stadler, themselves based on these [notes by Patrick E. Farell](https://people.maths.ox.ac.uk/farrellp/femvideos/notes.pdf). I will skip much of the theory and focus on some more practical aspects. As a brief background look first at these short [notes on interpolation in 2D/3D](Lectures/Interp2D.pdf).
+
+In the second half of the lecture I will discuss the basic idea behind the Discontinuous Galerkin (DEG) method for hyperbolic problems based on lecture notes by Sandra May. This method is a combination of FV and FE methods and still under active development, so we will not go into any detail. While DEG also works for parabolic problems, whether there is any advantage to that is still an open area of research and I will not cover that.
+
+### 13. (Dec 15) Immersed Boundary Methods and Boundary Integral Methods
+
+A brief discussion/comparison of two methods to handle more complex geometries, focusing on rigid bodies in Stokes flow.
 
 ### X. Other topics for final project
 
