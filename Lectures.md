@@ -112,9 +112,11 @@ If time permits I will very briefly discuss [Adaptive Mesh Refinement (AMR)](AMR
 
 An important aspect that we will not have time to cover are efficient linear solvers for the linear systems that arise in various grid-based FD/FV/FE methods, in particular for elliptic problems. While in 2D it is possible to use multifrontal direct solvers due to the abundance of memory on modern computers, for 3D iterative solvers based on algebraic or geometric **multigrid methods** are required; see these [lecture notes on geometric multigrid by William L. Briggs](http://www.math.ust.hk/%7Emawang/teaching/math532/mgtut.pdf). There are many existing libraries implementing such solvers.
 
-### 13. (Dec 15, maybe?) Immersed Boundary Methods and Boundary Integral Methods
+### 13. (Dec 15) [Boundary Integral Methods](Lectures/BoundaryIntegralMethods.pdf)
 
-A brief discussion/comparison of two methods to handle more complex geometries, focusing on rigid bodies in Stokes flow.
+In this brief lecture I will cover some basic ideas behind boundary integral methods; my lecture notes are pretty elementary and based primarily on two sources. These [notes by Alex Barnett](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/BoundaryIntegral_Barnett.pdf) give the basic discretizations with some code snippets. These incomplete [notes by Mike O'Neil](https://cims.nyu.edu/%7Eoneil/courses/fa17-math2011/int_eq_notes_2017.pdf) give an introduction to single and double layer operators. If you have never studied electrostatics or forgot all about it, it would be very useful to quickly review these [notes on electrostatics](https://cims.nyu.edu/%7Eoneil/courses/sp19-math2840/electrostatics.pdf).
+
+Note that efficiently computing quadratures with Green's function kernels in (log)linear time in the number of points requires using [fast multipole methods](https://math.nyu.edu/faculty/greengar/shortcourse_fmm.pdf) (in unbounded domains) or using the FFT (in periodic domains, in spectral Ewald splitting methods). More recently, methods based on low-rank compression are emerging as (algebraic) alternatives; see special topics course on randomized methods for linear algebra by Mike O'Neil and Jonathan Weare in Spring of 2022.
 
 ### X. Other topics for final project
 
