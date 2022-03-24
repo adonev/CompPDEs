@@ -116,6 +116,8 @@ An important aspect that we will not have time to cover are efficient linear sol
 
 In this brief lecture I will cover some basic ideas behind boundary integral methods; my lecture notes are pretty elementary and based primarily on two sources. These [notes by Alex Barnett](https://cims.nyu.edu/~donev/Teaching/NMII/Lectures/BoundaryIntegral_Barnett.pdf) give the basic discretizations with some code snippets. These incomplete [notes by Mike O'Neil](https://cims.nyu.edu/%7Eoneil/courses/fa17-math2011/int_eq_notes_2017.pdf) give an introduction to single and double layer operators. If you have never studied electrostatics or forgot all about it, it would be very useful to quickly review these [notes on electrostatics](https://cims.nyu.edu/%7Eoneil/courses/sp19-math2840/electrostatics.pdf).
 
+Here are some older lecture notes on [boundary integral formulations for Stokes flow](Lectures/StokesFlow.pdf), with some comparison to the methods of regularized Stokeslets / immersed-boundary methods.
+
 Note that efficiently computing quadratures with Green's function kernels in (log)linear time in the number of points requires using [fast multipole methods](https://math.nyu.edu/faculty/greengar/shortcourse_fmm.pdf) (in unbounded domains) or using the FFT (in periodic domains, in spectral Ewald splitting methods). More recently, methods based on low-rank compression are emerging as (algebraic) alternatives; see special topics course on randomized methods for linear algebra by Mike O'Neil and Jonathan Weare in Spring of 2022.
 
 ### X. Other topics for final project
